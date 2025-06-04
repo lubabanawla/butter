@@ -1,0 +1,25 @@
+
+#videoPlayerWindow {
+  width: 800px;
+  height: 450px;
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  position: absolute;
+  display: none;
+}
+
+#snakeGameWindow {
+  width: 600px;
+  height: 800px;
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  position: absolute;
+  display: none;
+}
+
+#videoPlayer {
+  width: 100%;
+  height: calc(100% - 40px); 
+}

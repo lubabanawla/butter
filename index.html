@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>BT_1N3_06</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    #map {
+      height: 400px;
+    }
+    #videoPlayer {
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+  </style>
+</head>
+
+<body style="
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+">
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;">
+    <video id="videoElement" autoplay muted loop
+      style="position: absolute; top: 0; opacity: 0.5; left: 0; display: none; width: 100%; filter: brightness(100%) blur(4px) contrast(90%); height: 100%; z-index: -1; object-fit: cover;">
+      <source src="Post Malone and Swae Lee - Sunflower (Official Instrumental).mp4"
+        type="video/mp4">
+    </video>
+  </div>
+  <div style="position: absolute; width: 100%; top: 0; display: flex; justify-content: space-between; z-index: 2000; align-items: center; background-color: #00000030; color: #fff; margin: 0; pointer-events: none;">
+    <p style="margin-left: 16px; font-weight: 600;"> BKTECH\BT_1N3_06 </p>
+    <div style="display: flex; flex-direction: row; align-items: center;">
+      <p onclick="toggleMusic()"
+        style="pointer-events: auto; cursor: pointer; padding: 4px 12px; background-color: rgba(255, 255, 255, 0.1); pointer; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.0); border: 1px solid transparent; transition: box-shadow 0.3s ease; border-radius: 16px;"
+        id="musicToggle" onmouseover="this.style.boxShadow = 'inset 0 0 0 1px rgba(255, 255, 255, 0.5)'"
+        onmouseout="this.style.boxShadow = 'none'">
+        Play Music
+      </p>
+
+      <p id="time" style="margin-right: 16px; margin-left: 16px">Time</p>
+    </div>
+  </div>
+  
+  <div id="winowApplications"
+    style="height: calc(100% - 128px); width: 100%; z-index: 1; display: flex; padding: 16px; flex-direction: column;">
+
+    <div id="videoIcon" onclick="openVideoPlayer()"
+      style="cursor: pointer; align-items: center; border-radius: 8px; width: fit-content; padding: 8px; display: flex; flex-direction: column;">
+      <img style="height: 64px; width: 64px;  border-radius: 16px; margin: 0px"
+        src="https://i.pinimg.com/564x/f6/57/f8/f657f8db0ae26622be66cb806c01e25a.jpg" />
+      <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Video Player</p>
+    </div>
+    
+    <div id="snakeIcon" onclick="openSnakeGame()"
+      style="cursor: pointer; align-items: center; border-radius: 8px; width: fit-content; padding: 8px; display: flex; flex-direction: column;">
+      <img style="height: 64px; width: 64px;  border-radius: 16px; margin: 0px"
+        src="https://i.pinimg.com/564x/d6/b1/87/d6b187de4436a9b1cbeb1898304a2bf6.jpg" />
+      <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Snake Game</p>
+    </div>
+
+    <div id="placeholder1Icon"
+      style="cursor: pointer; align-items: center; border-radius: 8px; width: fit-content; padding: 8px; display: flex; flex-direction: column;">
+      <img style="height: 64px; width: 64px;  border-radius: 16px; margin: 0px"
+        src="https://i.pinimg.com/564x/42/f7/ce/42f7ce7ea367d154e899108a7fad4057.jpg" />
+      <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Placeholder 1</p>
+    </div>
+    
+    <div id="placeholder2Icon"
+      style="cursor: pointer; align-items: center; border-radius: 8px; width: fit-content; padding: 8px; display: flex; flex-direction: column;">
+      <img style="height: 64px; width: 64px;  border-radius: 16px; margin: 0px"
+        src="https://i.pinimg.com/564x/b2/03/c7/b203c7ceda31850a5046ebb484502f20.jpg" />
+      <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Placeholder 2</p>
+    </div>
+  </div>
+
+  <div id="videoPlayerWindow" style="position: absolute; display: none; width: 800px; height: 450px; background-color: white; border-radius: 16px; overflow: hidden; z-index: 100;">
+    <div style="display: flex; align-items: center; background-color: #F6F6F6; border-radius: 16px 16px 0px 0px; justify-content: space-between; width: 100%">
+      <div onclick="closeVideoPlayer()"
+        style="cursor: pointer; height: 16px; width: 16px; background-color: red; border-radius: 16px; margin-left: 16px">
+      </div>
+      <p>Video Player</p>
+      <div style="height: 16px; width: 16px; border-radius: 16px; margin-right: 16px"></div>
+    </div>
+    <video id="videoPlayer" controls autoplay style="width: 100%; height: calc(100% - 40px);">
+      <source src="video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div id="snakeGameWindow" style="position: absolute; display: none; width: 600px; height: 680px; background-color: white; border-radius: 16px; overflow: hidden;">
+    <div style="display: flex; align-items: center; background-color: #F6F6F6; border-radius: 16px 16px 0px 0px; justify-content: space-between; width: 100%">
+      <div onclick="closeSnakeGame()"
+        style="cursor: pointer; height: 16px; width: 16px; background-color: red; border-radius: 16px; margin-left: 16px">
+      </div>
+      <p>Snake Game</p>
+      <div style="height: 16px; width: 16px; border-radius: 16px; margin-right: 16px"></div>
+    </div>
+    <iframe src="snake-game.html" style="width: 100%; height: calc(100% - 40px); border: none;"></iframe>
+  </div>
+
+  <div id="welcome" onclick="tapWindow(document.getElementById('welcome'))"
+    style="justify-content: center; align-items: center; display: flex; flex-direction: column; border: 1px solid black; padding: 16px; border-radius: 16px; background-color: #fff; position: absolute; z-index: 1;">
+    <div style="justify-content: start; display: flex; align-items: left; width: 100%"></div>
+    <img style="height: 96px; width: 96px; border-radius: 64px; object-fit: cover;"
+      src="defaulticon.png" />
+    <div style="margin: 8;  text-align: center;">
+      <h1>BKTECH\BT_1N3_06</h1>
+      <p style="text-align: center; margin: 0">
+        Welcome
+      </p>
+      <div style="width: 100%; justify-content: center; display: flex; align-items: center;">
+        <p onclick="closeElement(document.getElementById('welcome'))"
+          style="text-align: center; width: fit-content; padding: 8px 16px; border-radius: 24px; color: blue; cursor: pointer; border: 1px solid transparent; transition: border-color 0.3s ease; margin-bottom: 0px;"
+          onmouseover="this.style.borderColor = 'blue';" onmouseout="this.style.borderColor = 'transparent';">
+          Cancel
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    var topIndex = 3;
+    
+    function tapWindow(elmnt) {
+      elmnt.style.zIndex = topIndex++;
+    }
+
+    function closeElement(elmnt) {
+      elmnt.style.display = 'none';
+    }
+
+    function toggleMusic() {
+      var video = document.getElementById("videoElement");
+      var musicToggle = document.getElementById("musicToggle");
+
+      if (video.muted) {
+        video.muted = false;
+        video.style.display = "block";
+        video.play();
+        musicToggle.textContent = "Mute Music";
+      } else {
+        video.muted = true;
+        video.style.display = "none";
+        musicToggle.textContent = "Play Music";
+      }
+    }
+
+    function setDate() {
+      var timeElement = document.getElementById("time");
+      timeElement.innerText = new Date().toLocaleString();
+      setTimeout(setDate, 1000);
+    }
+
+    setDate();
+
+    function openVideoPlayer() {
+      var player = document.getElementById("videoPlayerWindow");
+      player.style.display = "block";
+      player.style.zIndex = topIndex++;
+      document.getElementById("videoPlayer").play();
+    }
+
+    function closeVideoPlayer() {
+      var player = document.getElementById("videoPlayerWindow");
+      player.style.display = "none";
+      document.getElementById("videoPlayer").pause();
+    }
+
+    function openSnakeGame() {
+      var gameWindow = document.getElementById("snakeGameWindow");
+      gameWindow.style.display = "block";
+      gameWindow.style.zIndex = topIndex++;
+    }
+
+    function closeSnakeGame() {
+      var gameWindow = document.getElementById("snakeGameWindow");
+      gameWindow.style.display = "none";
+    }
+  </script>
+</body>
+</html>
