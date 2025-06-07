@@ -70,11 +70,11 @@
       <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Snake Game</p>
     </div>
 
-    <div id="placeholder1Icon"
+    <div id="placeholder1Icon" onclick="openWebcam()"
       style="cursor: pointer; align-items: center; border-radius: 8px; width: fit-content; padding: 8px; display: flex; flex-direction: column;">
       <img style="height: 64px; width: 64px;  border-radius: 16px; margin: 0px"
         src="https://i.pinimg.com/564x/42/f7/ce/42f7ce7ea367d154e899108a7fad4057.jpg" />
-      <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Placeholder 1</p>
+      <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Webcam</p>
     </div>
     
     <div id="placeholder2Icon"
@@ -93,8 +93,16 @@
     </div>
     <video id="videoPlayerWindowTag" controls>
       <source src="video.mp4" type="video/mp4">
-      Your browser does not support the video tag.
     </video>
+  </div>
+
+  <div id="webcamWindow" style="position: absolute; display: none; width: 640px; height: 500px; background-color: white; border-radius: 16px; overflow: hidden; z-index: 100;">
+    <div class="windowHeader">
+      <div class="closeBtn" onclick="closeWebcam()"></div>
+      <p>Webcam</p>
+      <div style="width: 16px; height: 16px; margin-right: 16px;"></div>
+    </div>
+    <video id="webcamVideo" autoplay playsinline style="width: 100%; height: calc(100% - 40px); object-fit: cover;"></video>
   </div>
 
   <div id="snakeGameWindow" style="position: absolute; display: none; width: 600px; height: 680px; background-color: white; border-radius: 16px; overflow: hidden;">

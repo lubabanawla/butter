@@ -37,7 +37,7 @@ function openVideoPlayer() {
   player.style.display = "block";
   player.style.zIndex = topIndex++;
   video.currentTime = 0;
-  video.play().catch(err => console.warn("Video playback failed:", err));
+  video.play().catch(err => console.warn("ERROR!", err));
 }
 
 function closeVideoPlayer() {
@@ -56,4 +56,30 @@ function openSnakeGame() {
 function closeSnakeGame() {
   const gameWindow = document.getElementById("snakeGameWindow");
   gameWindow.style.display = "none";
+}
+
+function openWebcam() {
+  const windowEl = document.getElementById("webcamWindow");
+  const video = document.getElementById("webcamVideo");
+
+  navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(stream => {
+      video.srcObject = stream;
+      windowEl.style.display = "block";
+      windowEl.style.zIndex = topIndex++;
+      video.dataset.activeStream = "true";
+    })
+    .catch(err => {
+      alert("ERROR! " + err.message);
+    });
+}
+
+function closeWebcam() {
+  const video = document.getElementById("webcamVideo");
+  const stream = video.srcObject;
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+    video.srcObject = null;
+  }
+  document.getElementById("webcamWindow").style.display = "none";
 }
