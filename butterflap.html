@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Butter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5bf42; 
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #90EE90 70%, #90EE90 100%); /* Kept original game container colors */
+            border: 3px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .butter {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-image: url("buttericon.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            transition: transform 0.1s ease;
+        }
+
+        .pipe {
+            position: absolute;
+            width: 60px;
+            background: #228B22; 
+            border: 2px solid #006400; 
+        }
+
+        .pipe-top {
+            top: 0;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .pipe-bottom {
+            bottom: 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .start-screen, .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .start-screen h1, .game-over h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .start-screen p, .game-over p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .back-button {
+            background: #f44336; 
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background: #d32f2f;
+        }
+
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 850px) {
+            .game-container {
+                width: 95vw;
+                height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='butter.html'">← Back</button>
+
+    <div class="game-container" id="gameContainer">
+        <div class="score" id="score">0</div>
+        <div class="butter" id="butter"></div>
+        
+        <div class="start-screen" id="startScreen">
+            <h1>🧈 Flappy Butter</h1>
+            <p>Click or press SPACE to make the butter fly!</p>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+
+        <div class="game-over" id="gameOver" style="display: none;">
+            <h2>Game Over!</h2>
+            <p>Final Score: <span id="finalScore">0</span></p>
+            <button onclick="startGame()">Play Again</button>
+        </div>
+
+        <div class="instructions">
+            <p>Click anywhere or press SPACE to flap!</p>
+        </div>
+    </div>
+
+    <script>
+        class FlappyButter {
+            constructor() {
+                this.gameContainer = document.getElementById('gameContainer');
+                this.butter = document.getElementById('butter');
+                this.scoreElement = document.getElementById('score');
+                this.startScreen = document.getElementById('startScreen');
+                this.gameOverScreen = document.getElementById('gameOver');
+                this.finalScoreElement = document.getElementById('finalScore');
+                
+                this.gameRunning = false;
+                this.butterY = 300;
+                this.butterVelocity = 0;
+                this.gravity = 0.5;
+                this.jumpPower = -8;
+                this.score = 0;
+                this.pipes = [];
+                this.pipeWidth = 60;
+                this.pipeGap = 150;
+                this.pipeSpeed = 2;
+                
+                this.setupControls();
+                this.updateButterPosition();
+            }
+
+            setupControls() {
+                this.gameContainer.addEventListener('click', (e) => {
+                    if (e.target.tagName !== 'BUTTON') {
+                        this.flap();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.flap();
+                    }
+                });
+            }
+
+            flap() {
+                if (this.gameRunning) {
+                    this.butterVelocity = this.jumpPower;
+                    this.butter.style.transform = 'rotate(-20deg)';
+                    setTimeout(() => {
+                        if (this.gameRunning) {
+                            this.butter.style.transform = 'rotate(0deg)';
+                        }
+                    }, 150);
+                }
+            }
+
+            updateButterPosition() {
+                this.butter.style.left = '100px';
+                this.butter.style.top = this.butterY + 'px';
+            }
+
+            createPipe() {
+                const pipeX = this.gameContainer.offsetWidth;
+                const minHeight = 50;
+                const maxHeight = this.gameContainer.offsetHeight - this.pipeGap - minHeight;
+                const topPipeHeight = Math.random() * (maxHeight - minHeight) + minHeight;
+                const bottomPipeHeight = this.gameContainer.offsetHeight - topPipeHeight - this.pipeGap;
+
+                const topPipe = document.createElement('div');
+                topPipe.className = 'pipe pipe-top';
+                topPipe.style.left = pipeX + 'px';
+                topPipe.style.height = topPipeHeight + 'px';
+
+                const bottomPipe = document.createElement('div');
+                bottomPipe.className = 'pipe pipe-bottom';
+                bottomPipe.style.left = pipeX + 'px';
+                bottomPipe.style.height = bottomPipeHeight + 'px';
+
+                this.gameContainer.appendChild(topPipe);
+                this.gameContainer.appendChild(bottomPipe);
+
+                this.pipes.push({
+                    topPipe: topPipe,
+                    bottomPipe: bottomPipe,
+                    x: pipeX,
+                    passed: false
+                });
+            }
+
+            updatePipes() {
+                this.pipes.forEach((pipe, index) => {
+                    pipe.x -= this.pipeSpeed;
+                    pipe.topPipe.style.left = pipe.x + 'px';
+                    pipe.bottomPipe.style.left = pipe.x + 'px';
+
+                    if (!pipe.passed && pipe.x + this.pipeWidth < 100) {
+                        pipe.passed = true;
+                        this.score++;
+                        this.scoreElement.textContent = this.score;
+                    }
+
+                    if (pipe.x + this.pipeWidth < 0) {
+                        pipe.topPipe.remove();
+                        pipe.bottomPipe.remove();
+                        this.pipes.splice(index, 1);
+                    }
+                });
+            }
+
+            checkCollisions() {
+                const butterRect = {
+                    left: 100,
+                    right: 140,
+                    top: this.butterY,
+                    bottom: this.butterY + 40
+                };
+
+                if (this.butterY <= 0 || this.butterY >= this.gameContainer.offsetHeight - 40) {
+                    return true;
+                }
+
+                for (let pipe of this.pipes) {
+                    if (butterRect.right > pipe.x && butterRect.left < pipe.x + this.pipeWidth) {
+                        const topPipeHeight = parseInt(pipe.topPipe.style.height);
+                        const bottomPipeTop = this.gameContainer.offsetHeight - parseInt(pipe.bottomPipe.style.height);
+
+                        if (butterRect.top < topPipeHeight || butterRect.bottom > bottomPipeTop) {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+
+            gameLoop() {
+                if (!this.gameRunning) return;
+
+                this.butterVelocity += this.gravity;
+                this.butterY += this.butterVelocity;
+                this.updateButterPosition();
+
+                const rotation = Math.min(Math.max(this.butterVelocity * 3, -30), 30);
+                this.butter.style.transform = `rotate(${rotation}deg)`;
+
+                if (this.pipes.length === 0 || this.pipes[this.pipes.length - 1].x < this.gameContainer.offsetWidth - 300) {
+                    this.createPipe();
+                }
+
+                this.updatePipes();
+
+                if (this.checkCollisions()) {
+                    this.endGame();
+                    return;
+                }
+
+                requestAnimationFrame(() => this.gameLoop());
+            }
+
+            startGame() {
+                this.gameRunning = true;
+                this.butterY = 300;
+                this.butterVelocity = 0;
+                this.score = 0;
+                this.pipes = [];
+
+                document.querySelectorAll('.pipe').forEach(pipe => pipe.remove());
+
+                this.startScreen.style.display = 'none';
+                this.gameOverScreen.style.display = 'none';
+
+                this.scoreElement.textContent = '0';
+                this.butter.style.transform = 'rotate(0deg)';
+                this.updateButterPosition();
+
+                this.gameLoop();
+            }
+
+            endGame() {
+                this.gameRunning = false;
+                this.finalScoreElement.textContent = this.score;
+                this.gameOverScreen.style.display = 'block';
+            }
+        }
+
+        const game = new FlappyButter();
+
+        function startGame() {
+            game.startGame();
+        }
+    </script>
+</body>
+</html>
