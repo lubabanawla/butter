@@ -9,17 +9,18 @@ function closeElement(element) {
 }
 
 function toggleMusic() {
-  const video = document.getElementById("backgroundVideo");
+  const audio = document.getElementById("audioElement");
   const musicToggle = document.getElementById("musicToggle");
 
-  if (video.muted) {
-    video.muted = false;
-    video.style.display = "block";
-    video.play();
-    musicToggle.textContent = "Mute Music";
+  if (audio.paused) {
+    audio.play().then(() => {
+      musicToggle.textContent = "Mute Music";
+    }).catch(err => {
+      alert("Audio playback blocked. Try clicking anywhere first.");
+      console.warn("Audio error:", err);
+    });
   } else {
-    video.muted = true;
-    video.style.display = "none";
+    audio.pause();
     musicToggle.textContent = "Play Music";
   }
 }
