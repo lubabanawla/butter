@@ -38,6 +38,7 @@
     </audio>
   </div>
 
+  
   <div style="position: absolute; width: 100%; top: 0; display: flex; justify-content: space-between; z-index: 2000; align-items: center; background-color: #00000030; color: #fff; margin: 0; pointer-events: none;">
     <p style="margin-left: 16px; font-weight: 600;"> BKTECH\BT_1N3_06 </p>
     <div style="display: flex; flex-direction: row; align-items: center;">
@@ -52,35 +53,35 @@
     </div>
   </div>
   
-  <div id="winowApplications"
+  <div id="windowApplications"
     style="height: calc(100% - 128px); width: 100%; z-index: 1; display: flex; padding: 16px; flex-direction: column;">
 
-    <div id="videoIcon" onclick="openVideoPlayer()"
+    <div id="video" onclick="openVideoPlayer()"
       style="cursor: pointer; align-items: center; border-radius: 8px; width: fit-content; padding: 8px; display: flex; flex-direction: column;">
       <img style="height: 64px; width: 64px;  border-radius: 16px; margin: 0px"
-        src="https://i.pinimg.com/564x/f6/57/f8/f657f8db0ae26622be66cb806c01e25a.jpg" />
+        src="videoicon.png" />
       <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Video Player</p>
     </div>
     
-    <div id="snakeIcon" onclick="openSnakeGame()"
+    <div id="snake" onclick="openSnakeGame()"
       style="cursor: pointer; align-items: center; border-radius: 8px; width: fit-content; padding: 8px; display: flex; flex-direction: column;">
       <img style="height: 64px; width: 64px;  border-radius: 16px; margin: 0px"
-        src="https://i.pinimg.com/564x/d6/b1/87/d6b187de4436a9b1cbeb1898304a2bf6.jpg" />
+        src="snakeicon.png" />
       <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Snake Game</p>
     </div>
 
-    <div id="placeholder1Icon" onclick="openWebcam()"
+    <div id="webcam" onclick="openWebcam()"
       style="cursor: pointer; align-items: center; border-radius: 8px; width: fit-content; padding: 8px; display: flex; flex-direction: column;">
       <img style="height: 64px; width: 64px;  border-radius: 16px; margin: 0px"
-        src="https://i.pinimg.com/564x/42/f7/ce/42f7ce7ea367d154e899108a7fad4057.jpg" />
+        src="cameraicon.png" />
       <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Webcam</p>
     </div>
     
-    <div id="placeholder2Icon"
+    <div id="calculator" onclick="openCalculator()"
       style="cursor: pointer; align-items: center; border-radius: 8px; width: fit-content; padding: 8px; display: flex; flex-direction: column;">
       <img style="height: 64px; width: 64px;  border-radius: 16px; margin: 0px"
-        src="https://i.pinimg.com/564x/b2/03/c7/b203c7ceda31850a5046ebb484502f20.jpg" />
-      <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Placeholder 2</p>
+        src="calculatoricon.png" />
+      <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Calculator</p>
     </div>
   </div>
 
@@ -113,6 +114,40 @@
       <div style="height: 16px; width: 16px; border-radius: 16px; margin-right: 16px"></div>
     </div>
     <iframe src="snake-game.html" style="width: 100%; height: calc(100% - 40px); border: none;"></iframe>
+  </div>
+
+  <div id="calculatorWindow" style="position: absolute; display: none; width: 300px; height: 400px; background-color: white; border-radius: 16px; overflow: hidden; z-index: 100;">
+    <div class="windowHeader">
+      <div class="closeBtn" onclick="closeCalculator()"></div>
+      <p>Calculator</p>
+      <div style="width: 16px; height: 16px; margin-right: 16px;"></div>
+    </div>
+    <div style="padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+      <input id="calcDisplay" readonly style="font-size: 24px; padding: 8px; text-align: right; border: 1px solid #ccc; border-radius: 8px;" />
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+        <button onclick="press('7')">7</button>
+        <button onclick="press('8')">8</button>
+        <button onclick="press('9')">9</button>
+        <button onclick="press('/')">÷</button>
+  
+        <button onclick="press('4')">4</button>
+        <button onclick="press('5')">5</button>
+        <button onclick="press('6')">6</button>
+        <button onclick="press('*')">×</button>
+  
+        <button onclick="press('1')">1</button>
+        <button onclick="press('2')">2</button>
+        <button onclick="press('3')">3</button>
+        <button onclick="press('-')">−</button>
+  
+        <button onclick="press('0')">0</button>
+        <button onclick="press('.')">.</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="press('+')">+</button>
+  
+        <button onclick="clearCalc()" style="grid-column: span 4; background-color: #eee;">Clear</button>
+      </div>
+    </div>
   </div>
 
   <div id="welcome" onclick="tapWindow(document.getElementById('welcome'))"

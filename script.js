@@ -84,3 +84,42 @@ function closeWebcam() {
   }
   document.getElementById("webcamWindow").style.display = "none";
 }
+
+let calcInput = "";
+
+function openCalculator() {
+  const calcWindow = document.getElementById("calculatorWindow");
+  calcWindow.style.display = "block";
+  calcWindow.style.zIndex = topIndex++;
+  updateDisplay();
+}
+
+function closeCalculator() {
+  document.getElementById("calculatorWindow").style.display = "none";
+  calcInput = "";
+}
+
+function press(char) {
+  calcInput += char;
+  updateDisplay();
+}
+
+function calculate() {
+  try {
+    const result = eval(calcInput);
+    calcInput = result.toString();
+    updateDisplay();
+  } catch (err) {
+    calcInput = "Error";
+    updateDisplay();
+  }
+}
+
+function clearCalc() {
+  calcInput = "";
+  updateDisplay();
+}
+
+function updateDisplay() {
+  document.getElementById("calcDisplay").value = calcInput;
+}
