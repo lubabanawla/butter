@@ -123,3 +123,8 @@ function clearCalc() {
 function updateDisplay() {
   document.getElementById("calcDisplay").value = calcInput;
 }
+
+function goToButterPage() {
+    window.location.href = "butter.html";
+  }
+  
