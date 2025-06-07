@@ -1,25 +1,148 @@
 
-#videoPlayerWindow {
-  width: 800px;
-  height: 450px;
+body {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  font-family: Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #111;
+  overflow: hidden;
+}
+
+#backgroundVideoContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+#backgroundVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  filter: brightness(100%) blur(4px) contrast(90%);
+}
+
+#topBar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  padding: 8px 16px;
+  font-weight: 600;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+#rightBar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  pointer-events: auto;
+}
+
+#musicToggle {
+  cursor: pointer;
+  padding: 4px 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  transition: box-shadow 0.3s ease;
+}
+
+#musicToggle:hover {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+#winowApplications {
+  display: flex;
+  gap: 16px;
+  z-index: 1;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 80px;
+}
+
+.appIcon {
+  cursor: pointer;
+  align-items: center;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.appIcon img {
+  height: 64px;
+  width: 64px;
+  border-radius: 16px;
+}
+
+.appIcon p {
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+}
+
+#videoPlayerWindow,
+#snakeGameWindow {
+  position: absolute;
+  display: none;
   background-color: white;
   border-radius: 16px;
   overflow: hidden;
-  position: absolute;
-  display: none;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+#videoPlayerWindow {
+  width: 800px;
+  height: 450px;
+  z-index: 1000;
 }
 
 #snakeGameWindow {
   width: 600px;
-  height: 800px;
-  background-color: white;
-  border-radius: 16px;
-  overflow: hidden;
-  position: absolute;
-  display: none;
+  height: 680px;
+  z-index: 1000;
 }
 
-#videoPlayer {
+.windowHeader {
+  display: flex;
+  align-items: center;
+  background-color: #f6f6f6;
+  border-radius: 16px 16px 0 0;
+  justify-content: space-between;
+  padding: 8px 16px;
+  font-weight: bold;
+}
+
+.closeBtn {
+  cursor: pointer;
+  height: 16px;
+  width: 16px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+#videoPlayerWindowTag {
   width: 100%;
-  height: calc(100% - 40px); 
+  height: calc(100% - 40px);
+  display: block;
+  background-color: black;
+}
+
+#snakeGameWindow iframe {
+  width: 100%;
+  height: calc(100% - 40px);
+  border: none;
 }

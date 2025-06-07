@@ -1,4 +1,3 @@
-
 let topIndex = 3;
 
 function tapWindow(element) {
@@ -10,7 +9,7 @@ function closeElement(element) {
 }
 
 function toggleMusic() {
-  const video = document.getElementById("videoElement");
+  const video = document.getElementById("backgroundVideo");
   const musicToggle = document.getElementById("musicToggle");
 
   if (video.muted) {
@@ -30,27 +29,24 @@ function setDate() {
   timeElement.innerText = new Date().toLocaleString();
   setTimeout(setDate, 1000);
 }
-
-// initialize date display
 setDate();
 
-// video player functions
 function openVideoPlayer() {
-    const player = document.getElementById("videoPlayerWindow");
-    player.style.display = "block";
-    player.style.zIndex = topIndex++;
-    const video = document.getElementById("videoPlayer");
-    video.currentTime = 0; // Reset to start
-    video.play().catch(e => console.log("Video play failed:", e));
+  const player = document.getElementById("videoPlayerWindow");
+  const video = document.getElementById("videoPlayerWindowTag");
+  player.style.display = "block";
+  player.style.zIndex = topIndex++;
+  video.currentTime = 0;
+  video.play().catch(err => console.warn("Video playback failed:", err));
 }
 
 function closeVideoPlayer() {
   const player = document.getElementById("videoPlayerWindow");
+  const video = document.getElementById("videoPlayerWindowTag");
   player.style.display = "none";
-  document.getElementById("videoPlayer").pause();
+  video.pause();
 }
 
-// snake Game Functions
 function openSnakeGame() {
   const gameWindow = document.getElementById("snakeGameWindow");
   gameWindow.style.display = "block";
