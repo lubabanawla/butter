@@ -69,11 +69,6 @@
         src="snakeicon.png" />
       <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff">Snake Game</p>
     </div>
-
-    <div id="butterIcon" class="appIcon" onclick="goToButterPage()">
-      <img src="buttericon.png" />
-      <p>Butter</p>
-    </div>
     
     <div id="webcam" onclick="openWebcam()"
       style="cursor: pointer; align-items: center; border-radius: 8px; width: fit-content; padding: 8px; display: flex; flex-direction: column;">
@@ -154,6 +149,22 @@
       </div>
     </div>
   </div>
+
+<div id="butterIcon" onclick="goToButterPage()" style="
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+">
+  <img src="buttericon.png" style="height: 64px; width: 64px; border-radius: 16px;" />
+  <p style="margin: 0px; font-size: 12px; margin-top: 4px; font-weight: 500; color: #fff;">Butter</p>
+</div>
 
   <div id="welcome" onclick="tapWindow(document.getElementById('welcome'))"
     style="justify-content: center; align-items: center; display: flex; flex-direction: column; border: 1px solid black; padding: 16px; border-radius: 16px; background-color: #fff; position: absolute; z-index: 1;">
